@@ -1,0 +1,29 @@
+Java e C#: linguagens pré-compiladas + máquina virtual. Não é uma linguagem compilada, por isso, tem desvantagens e vantagens
+Linguagens compiladas possuem maior velocidade, mas portabilidade não tão boa. É necessário sempre mudar o compilador para conse
+guir compilar o código em diferentes linguagens. O PHP é outro caso, no caso é uma linguagem interpretada. Nesse caso, ele conse
+gue ter um mesmo código para diferentes sistemas, tendo alta portabilidade, mas não tão boa velocidade. A diferença é que enquan
+to a linguagem compilada é traduzida diretamente no computador, a linguagem interpretada possui um outro programa chamado inter
+pretador que serve ler e executar esse código. O Java é diferente dos dois, funcionando de uma forma híbrida.
+Funciona assim: o código é pré-compilado para uma versão "Bytecode" e esta, caso não ocorra nenhum problema, consegue ser lida
+em qualquer sistema por uma máquina virtual (JVM), resolvendo o problema da portabilidade e velocidade. Assim sendo: temos que
+CÓDIGO -> COMPILAR -> BYTECODE -> LINGUAGEM DE MÁQUINA NA JVM
+
+# How to install a java project
+
+1. Clique na parte de pesquisar na barra de navegação acima
+2. Clique em "Show and Run Commands"
+3. Clique em "Java: Create java project"
+4. Defina o local em que o projeto vai ficar
+5. Defina o nome do projeto
+
+OBS: Vá no Java Debugger na parte de extensões, clique em configurações e depois settings. Coloque o console como external ou
+integrated (recomendo external)
+
+# Java base
+
+Package: agrupamento lógico de classes relacionadas. Posso ter um package para os services, outros para entidades, etc. 
+Modules: introduzido no java 9+. É um agrupamento lógico de packages relacionados (modules de graficos, que tem packages com
+classes para receber, organizar e tratar dados, por exemplo). Por agrumento lógico, dizemos que está em nível conceitual e em
+nível de código.
+Runtime: É gerado quando compilamos os modules, sendo um agrupamento FÍSICO (representado por files).
+Aplicação: Agrupamento de modules relacionados.

@@ -1,0 +1,135 @@
+## Types: Referência x Valor
+
+# Tipo referência/ponteiro
+
+1. Referência -> Variáveis cujo tipo são classes não devem ser entendidos como "caixas", mas sim como "tentáculos" (ponteiros)
+que apontam para caixas. 
+ex -> digamos que criamos uma variável chamada "object", cujo tipo é a classe Object.
+
+Aqui, declaramos a variável. Mas como seu tipo (Object) é uma classe, ela não armazena VALORES mas sim ENDEREÇOS para OBJETOS, ou
+seja, aponta para um objeto na memória dinâmica (heap). Porém, para armazenar (referenciar/apontar) o endereço, precisamos instan
+ciar a classe.
+
+Object object;
+
+Instanciando com o new.
+
+object = new Object();
+
+Agora, object (na memória estática (stack)) é uma referência (possui um endereço) para um objeto na memória dinâmi
+ca. Para acessar o conteúdo da memória dinâmica de endereço object, usamos o ponto, seguido de métodos ou atributos.
+
+
+object; -> Possui o endereço do objeto object de tipo Object (classe Object)
+object.metodo(); -> Método que possui dentro do objeto object de tipo Object (classe Object)
+object.atributo; -> Atributo que possui dentro do objeto object de tipo Object (classe Object)
+
+Assim sendo, conclui-se -> variáveis de tipo classe são, na realidade, tipos referências ou tipos ponteiros. Logo, um ponteiro é
+uma variável que aponta para um objeto na área heap.
+
+Classes são TIPOS.
+Tipos referência aceitam o valor "null" (indica que a variável aponta para ninguém).
+
+Usar "new" é alocar. Quando alocamos, há valores padrões aos elementos do objeto apontado pelo ponteiro.
+números => 0
+boolean => false
+char => caractere código 0
+objeto/string => null
+
+# Tipo primitivo/valor
+
+Aqui sim há armazenamento direto nas variáveis diretamente na Stack. São as variáveis já conhecidas -> int, double, String, char.
+Além dessas, há também os tipos float, long (é o que o double é para o float, mas para int), byte, etc.
+
+Resumo -> Classes são tipos referência e as variáveis de tipo classe/referência são ponteiros, enquanto os tipos primitivos
+são apenas unidades de armazenamento (int, long, float, double, char, string, byte, boolean). No tipo referência, é instanciada
+no heap, enquanto no tipo primitivo é instanciada já na stack. Objetos não utilizados são desalocados em um momento próximo
+pelo garbage collector, enquanto os primitivos são desalocados imediatamente quando seu escopo é finalizado.
+
+## Garbage collector e escopo local
+
+# Desalocação por garbage collector
+
+A ideia é simples. Objetos instanciados (new), logo, que possuem um ponteiro apontando para seu endereço no heap, enquanto ainda
+possuir tal ponteiro (assim sendo, um endereçamento), estarão alocados. Mas imagine o exemplo ->
+
+Aqui, instancia-se 2 variáveis do tipo referência/ponteiro (object_ex1 e object_ex2) que apontam para um endereço na memória heap
+que possui 2 objetos. 
+Object object_ex1 = new Object();
+Object object_ex2 = new Object();
+
+Agora, estamos fazendo object_ex2 apontar para o mesmo endereço/objeto que object_ex1.
+object_ex1 = object_ex2;
+
+E agora? Podemos concluir que object_ex1 e object_ex2 apontam para um mesmo objeto no heap, mas e o objeto que estava sendo
+apontado inicialmente pelo object_ex1? Ele não tem mais ponteiro nenhum apontando para ele e não há mais uso, fora o espaço
+na memória sendo usado desnecessariamente. Aqui que entra o garbage collector. Ele, dinamicamente, vai notar que há um objeto
+sem endereço/ponteiro apontando para ele e irá desalocar o objeto, liberando espaço na memória.
+
+# Desalocação por escopo
+
+Imagine que em um determinado espaço na Stack, há um espaço de uma função void, que sendo a função principal, podemos tratar
+as variáveis nela declaradas como sendo de escopo global, podendo ser utilizada por tudo que estiver dentro da função void. 
+Agora, suponha que dentro dessa função, ainda há outro espaço if_else. Variáveis declaradas dentro do escopo local if_else, NÃO
+EXISTEM fora do if_else, pois são desalocadas dinamicamente quando fora desse escopo.
+
+Resumo ->
+- Objetos instanciados/alocados dinamicamente, quando perde sua referência, ele é desalocado pelo Garbage Collector.
+- Variáveis primitivas locais são desalocadas imediatamente assim que seu escopo sair de execucação.
+
+## Boxing, unboxing e wraping class
+
+# Boxing e unboxing
+
+Digamos que declaramos uma variável x = 20 (na stack, valor primitivo)
+
+int x = 20;
+
+Agora, vamos fazer o boxing -> conversão de uma variável tipo primitivo/valor para um objeto tipo referência compativel
+
+Object obj = x;
+
+Agora, obj possui o valor de x 20, mas o valor 20 está na memória dinâmica (heap) e possui referência para tal
+Todavia, agora queremos fazer o unboxing (processo contrário: conversão de objeto de referência para um primitivo). Para
+isso, precisamos criar outra variável (primitiva) y que vai receber a variável de referência obj com casting do respectivo
+tipo
+
+int y = (int) obj;
+
+Agora, y é um valor do tipo primitivo (stack) com o valor de x, logo, y = 20 na stack
+
+
+# Wrapper class
+
+São classes equivalentes para os tipos primitivos. Todos os tipos primitivos possuem um tipo referência respectivo.
+Boolean -> boolean
+Character -> char
+Number -> possui outras wrapper class dentro:
+    Byte -> byte
+    Short -> short
+    Integer -> int
+    Long -> long
+    Float -> float
+    Double -> double
+
+Elas existem para que o boxing e o unboxing aconteçam de maneira natural na linguagem. No exemplo anterior:
+
+int x = 20;
+Object obj = x;
+int y = (int) obj;
+
+Queremos fazer o boxing e unboxing. Em vez de criar uma referência Object, como o valor de x é um tipo primitivo, podemos
+usar a Wrapper class "Integer" no lugar de "Object"
+
+int x = 20;
+Integer obj = x;
+
+Agora, como já utilizamos como Integer, já retorna números inteiros e, portanto, não precisa mais do casting
+
+int x = 20;
+Integer obj = x;
+int y = obj;
+
+Uso comum: tipos primitivos não aceitam nulo. Para atributos opcionais de classe, utilizamos em vez da tipagem primitiva, wrapper
+class, pois as wrapper class aceitam números nulos. Assim sendo, em vez de criar atributos de tipagem primitiva, podemos criar com
+as wrapper classes quando tais atributos podem de alguma forma aceitar valores nulos. É usado bastante para classes terem semelhança com as tabelas do banco de dados.

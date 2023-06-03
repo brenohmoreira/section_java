@@ -1,0 +1,10 @@
+Breno, 1200.00
+Kayo, 500.00
+Carlos, 3400.00
+Cadu, 1200.00
+Lorenzo, 1600.00
+Valdeci, 8000.00
+Erika, 5000.00
+Mariana, 100000.00
+Hugo, 50.00
+Gabriela, 50000.00
