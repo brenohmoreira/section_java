@@ -83,14 +83,18 @@ public class Main {
          * 0, [1] -> 0 + [1]
          *
          * O próximo vai armazenar o resultado da antiga em x e pegar o próximo elemento em y, fazendo o somatório novamente
+         *
+         * Reduce retorna um valor. Isso acontece por ser uma operação terminal
          */
         int sum = st5.reduce(0, (x, y) -> x + y);
         // Mesma coisa. Porém, note que na multiplicação o início deve ser 1, pois 0 fará a multiplicação total ser igual a 0
-        int mult = st5.reduce (1, (x, y) -> x * y);
+        int mult = st5.reduce(1, (x, y) -> x * y);
 
         List<Integer> pipelineDemo = Arrays.asList(1, 2, 3, 4, 5, 6);
 
         // Transforma uma lista em stream, pega todos os elementos que satisfaçam x -> x % 2 == 0 (par) e multiplica cada por dez, no final transforma em lista denovo
         List<Integer> newList = pipelineDemo.stream().filter(x -> x % 2 == 0).map(x -> x * 10).collect(Collectors.toList());
+
+        // Há também o sorted(). Faz a mesma coisa que sort(), mas é uma operação terminal.
     }
 }
