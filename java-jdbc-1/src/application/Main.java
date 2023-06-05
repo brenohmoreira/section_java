@@ -38,7 +38,12 @@ public class Main {
          *          - beforeFirst() move para a linha 0 0
          *          - next() move para a próxima linha
          *          - first() move para a linha 1, se houver
-         *          - absolute(int) move para a linha específicada
+         *          - absolute(int) move para a linha especificada
+         *
+         * Perceba a diferença então entre Statement e PreparedStatement: A primeira serve para executar uma função SQL.
+         * Assim sendo, apenas executeQuery(). Nesse caso, não podemos passar parâmetros, é totalmente estático.
+         * A segunda, contudo, prepara o comando SQL com os ? que serão substituídos por variáveis e apenas quando
+         * substituímos, utilizamos executeUpdate().
          */
 
         Statement statement = null;
