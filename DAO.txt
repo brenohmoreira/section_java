@@ -1,0 +1,15 @@
+DAO = Data Access Object
+
+É um padrão de desenvolvimento, assim como o MVC.
+
+Para cada entidade, haverá um objeto responsável por fazer acesso a 
+dados relacionado a esta entidade. Por exemplo:
+Cliente: ClienteDao
+Produto: ProdutoDao
+Pedido: PedidoDao
+
+Cada DAO será definido por uma interface.
+
+A injeção de dependências pode ser feita por meio
+do padrão de projeto Factory. É uma classe que irá
+instanciar as dependências.
