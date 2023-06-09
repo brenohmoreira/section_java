@@ -5,6 +5,7 @@ import model.dao.SellerDao;
 import model.entities.Department;
 import model.entities.Seller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -18,10 +19,17 @@ public class Main {
         System.out.println(seller);
 
         Department department = new Department(2, "Exemplo");
-
         List<Seller> list = sellerDao.findByDepartment(department);
 
         for (Seller obj : list) {
+            System.out.println(obj);
+        }
+
+        List<Seller> listAll = new ArrayList<>();
+
+        listAll = sellerDao.findAll();
+
+        for(Seller obj : listAll) {
             System.out.println(obj);
         }
     }
