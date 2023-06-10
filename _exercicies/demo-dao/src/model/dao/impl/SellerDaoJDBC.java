@@ -73,11 +73,27 @@ public class SellerDaoJDBC implements SellerDao {
         catch(SQLException MySQLError) {
             throw new DbException(MySQLError.getMessage());
         }
+        finally {
+            DB.closeStatement(preparedStatement);
+        }
     }
 
     @Override
     public void deleteById(Integer id) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement("DELETE FROM seller WHERE Id = ?");
 
+            preparedStatement.setInt(1, id);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+        }
+        catch(SQLException MySQLError) {
+            throw new DbException(MySQLError.getMessage());
+        }
+        finally {
+            DB.closeStatement(preparedStatement);
+        }
     }
 
     @Override
@@ -113,6 +129,10 @@ public class SellerDaoJDBC implements SellerDao {
         }
         catch (SQLException mySQLError) {
             throw new DbException(mySQLError.getMessage());
+        }
+        finally {
+            DB.closeStatement(preparedStatement);
+            DB.closeResultSet(resultSet);
         }
     }
 
