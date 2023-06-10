@@ -6,10 +6,7 @@ import model.dao.SellerDao;
 import model.entities.Department;
 import model.entities.Seller;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +22,38 @@ public class SellerDaoJDBC implements SellerDao {
 
     @Override
     public void insert(Seller obj) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement("INSERT INTO seller (Name, Email, BirthDate, BaseSalary, DepartmentId) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
+            preparedStatement.setString(1, obj.getName());
+            preparedStatement.setString(2, obj.getEmail());
+            preparedStatement.setDate(3, new java.sql.Date(obj.getDate().getTime()));
+            preparedStatement.setDouble(4, obj.getBaseSalary());
+            preparedStatement.setInt(5, obj.getDepartment().getId());
+
+            // Executa a mudança. Não vamos precisar de nenhum dos valores, se não poderíamos armazenar em um resultSet
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                // Criando um resultSet para armazenar as keys geradas (Ids)
+                ResultSet resultSet = preparedStatement.getGeneratedKeys();
+
+                if (resultSet.next()) {
+                    int id = resultSet.getInt(1);
+                    obj.setId(id);
+                }
+
+                DB.closeStatement(preparedStatement);
+                DB.closeResultSet(resultSet);
+            }
+            else {
+                throw new DbException("Erro inesperado: nenhuma linha afetada");
+            }
+        }
+        catch(SQLException MySQLError) {
+            throw new DbException(MySQLError.getMessage());
+        }
     }
 
     @Override
