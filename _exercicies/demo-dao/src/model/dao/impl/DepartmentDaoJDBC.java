@@ -6,6 +6,7 @@ import model.dao.DepartmentDao;
 import model.entities.Department;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DepartmentDaoJDBC implements DepartmentDao {
@@ -31,7 +32,13 @@ public class DepartmentDaoJDBC implements DepartmentDao {
             if(rowsAffected > 0) {
                 resultSet = preparedStatement.getGeneratedKeys();
 
-                obj.setId(resultSet.getInt(1));
+                // Percorrer resultSet
+                if(resultSet.next()) {
+                    obj.setId(resultSet.getInt(1));
+                }
+            }
+            else {
+                throw new DbException("Without rows affected");
             }
         }
         catch(SQLException MySQLError) {
@@ -97,7 +104,7 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 
                 return obj;
             }
-            
+
             return null;
         }
         catch (SQLException MySQLError) {
@@ -111,6 +118,29 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 
     @Override
     public List<Department> findAll() {
-        return null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement("SELECT * FROM department ORDER BY Name");
+
+            resultSet = preparedStatement.executeQuery();
+
+            List<Department> departments = new ArrayList<>();
+
+            while(resultSet.next()) {
+                Department department = new Department(resultSet.getInt("Id"), resultSet.getString("Name"));
+                departments.add(department);
+            }
+
+            return departments;
+        }
+        catch (SQLException MySQLError) {
+            throw new DbException(MySQLError.getMessage());
+        }
+        finally {
+            DB.closeStatement(preparedStatement);
+            DB.closeResultSet(resultSet);
+        }
     }
 }
