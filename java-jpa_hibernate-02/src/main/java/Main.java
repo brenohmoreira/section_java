@@ -18,5 +18,7 @@ import entities.Person;
 public class Main {
     public static void main(String[] args) {
         Person person = new Person(0, "Breno", "breno@gmail.com");
+
+        System.out.println(person);
     }
 }
