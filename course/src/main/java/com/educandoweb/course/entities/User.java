@@ -1,12 +1,20 @@
 package com.educandoweb.course.entities;
 
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.Objects;
 
 // Serializable permite que o objeto seja transformado para cadeia de bytes -> passar de arquivos para outros
+// Mapeando a entidade. @Entity para informar que é uma Entity e o nome da table @Table, pois User é uma palavra reservada
+@Entity
+@Table(name = "tb_user")
 public class User implements Serializable {
     public static final long serialVersionUID = 1L;
 
+    // Informando qual é a chave primária e formando como se faz a geração do valor
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String email;
