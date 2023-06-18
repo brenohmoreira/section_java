@@ -10,5 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * extends JpaRepository<Para quem, tipo id>
  */
+
+// @Repository não é necessário aqui pois JpaRepository já herda @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 }

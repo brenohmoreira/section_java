@@ -23,8 +23,12 @@ public class TestConfig implements CommandLineRunner {
      */
 
     // Para ele injetar a dependência e instanciar UserRepository
+    private final UserRepository userRepository;
+
     @Autowired
-    private UserRepository userRepository;
+    public TestConfig(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public void run(String... args) throws Exception {
