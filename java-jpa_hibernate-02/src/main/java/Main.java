@@ -11,6 +11,9 @@
  * Agora precisamos das dependências nas versões atuais. Para isso, precisamos escrever no google: maven repository
  * Agora vá até org.hibernate, hibernate mysql connector e hibernate core relocation, nas versões lts (mais recente azul)
  * Copie e coloque dentro de <dependencies></dependencies>
+ * Ele procurará automaticamente
+ *
+ * Adicione em resources o META-INF (directory) e dentro dele o  persistence.xml
  */
 
 import entities.Person;

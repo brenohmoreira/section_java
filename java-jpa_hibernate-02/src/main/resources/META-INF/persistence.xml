@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd" version="2.1">
+
+    <!-- name: apelido ; transaction-type: gerenciar manualmente -->
+    <persistence-unit name="exemplo-jpa" transaction-type="RESOURCE_LOCAL">
+        <properties>
+            <!-- URL do banco de dados com apelido: javax.persistence.jdbc.url -->
+            <property name="javax.persistence.jdbc.url"
+                      value="jdbc:mysql://localhost:3306/aulajpa?useSSL=FALSE&amp;serverTimezone=UTC" />
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+            <!-- User -->
+            <property name="javax.persistence.jdbc.user" value="root" />
+            <!-- Senha -->
+            <property name="javax.persistence.jdbc.password" value="" />
+
+            <!--
+                value: update -> vai mudar o banco de dados em cada load
+                value: create -> vai recriar o banco de dados em cada load
+            -->
+            <property name="hibernate.hbm2ddl.auto" value="update" />
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect" />
+        </properties>
+    </persistence-unit>
+</persistence>
