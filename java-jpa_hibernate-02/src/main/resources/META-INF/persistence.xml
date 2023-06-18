@@ -5,16 +5,16 @@
  http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd" version="2.1">
 
     <!-- name: apelido ; transaction-type: gerenciar manualmente -->
-    <persistence-unit name="exemplo-jpa" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="persistence-apelido" transaction-type="RESOURCE_LOCAL">
         <properties>
             <!-- URL do banco de dados com apelido: javax.persistence.jdbc.url -->
             <property name="javax.persistence.jdbc.url"
-                      value="jdbc:mysql://localhost:3306/aulajpa?useSSL=FALSE&amp;serverTimezone=UTC" />
+                      value="jdbc:mysql://localhost:3306/aulajpa?allowPublicKeyRetrieval=true&amp;useSSL=FALSE&amp;serverTimezone=UTC" />
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
             <!-- User -->
             <property name="javax.persistence.jdbc.user" value="root" />
             <!-- Senha -->
-            <property name="javax.persistence.jdbc.password" value="" />
+            <property name="javax.persistence.jdbc.password" value="breno8anos" />
 
             <!--
                 value: update -> vai mudar o banco de dados em cada load
