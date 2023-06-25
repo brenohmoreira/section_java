@@ -1,5 +1,6 @@
 package com.educandoweb.course.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -25,6 +26,35 @@ public class User implements Serializable {
 
     // Um usuário pode ter vários pedidos. Mapeamento, então, um para muitos em que, do outro lado, é representado por client
     // Isso relaciona cada ordem com o idClient
+    // @JsonIgnore faz a implementação JSON ignorar a lista de pedidos na hora da exibição, se não, entraria em um looping. JSON exibe pedidos, que tem um cliente, cliente esse que tem pedidos, por aí vai
+    /*
+     * Lazy Loading: associações ToMany não são carregadas pela JPA, justamente para não quebrar a máquina.
+     * Em termos práticos, na hora da exibição JSON que fazemos, uma associação "ToOne" é exibida como parte do JSON. Por exemplo:
+     * {
+            "id": 1,
+            "moment": "2019-06-20T19:53:07Z",
+            "client": {
+                "id": 1,
+                "name": "Maria Brown",
+                "email": "maria@gmail.com",
+                "phone": "988888888",
+                "password": "123456"
+            }
+        }
+    * Perceba que puxando o pedido 1, ele carrega o cliente associado a ele. Mas, se formos pegar o cliente:
+    * {
+            "id": 1,
+            "name": "Maria Brown",
+            "email": "maria@gmail.com",
+            "phone": "988888888",
+            "password": "123456"
+      }
+    * Ele não vai carregar as orders associadas.
+    * Isso acontece quando usamos o @JsonIgnore aqui. Ele ignora os pedidos associados a entidade na hora da exibição JSON.
+    * Se o @JsonIgnore for colocado do outro lado (Order), teremos que ele vai exibir essa lista em User, mas não exibirá o client em Order
+    *
+    */
+    @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
 
