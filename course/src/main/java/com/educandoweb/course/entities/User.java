@@ -3,6 +3,8 @@ package com.educandoweb.course.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 // Serializable permite que o objeto seja transformado para cadeia de bytes -> passar de arquivos para outros
@@ -21,6 +23,11 @@ public class User implements Serializable {
     private String phone;
     private String password;
 
+    // Um usuário pode ter vários pedidos. Mapeamento, então, um para muitos em que, do outro lado, é representado por client
+    // Isso relaciona cada ordem com o idClient
+    @OneToMany(mappedBy = "client")
+    private List<Order> orders = new ArrayList<>();
+
     // Framework obriga a ter um construtor vazio
     public User() {};
 
@@ -30,6 +37,10 @@ public class User implements Serializable {
         this.email = email;
         this.phone = phone;
         this.password = password;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
     }
 
     public Long getId() {

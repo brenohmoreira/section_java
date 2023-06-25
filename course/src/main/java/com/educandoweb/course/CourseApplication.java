@@ -12,7 +12,7 @@ public class CourseApplication {
          * - TestConfig povoa o banco de dados de teste
          * - User é a entidade que vamos mapear. O banco é criado a partir dele
          * - Os recursos é onde fazemos o mapeamento de rotas, conversa diretamente e exclusivamente com os serviços (Services)
-         * - Services
+         * - Services utiliza os repositórios para fazer as operações
          */
         SpringApplication.run(CourseApplication.class, args);
     }
