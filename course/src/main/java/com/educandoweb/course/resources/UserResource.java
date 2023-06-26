@@ -18,8 +18,11 @@ import java.util.List;
 public class UserResource {
 
     // Autowired tira a necessidade de um new ..., porém só podemos utilizar para componentes do Spring
-    @Autowired
-    private UserService service;
+    private final UserService service;
+
+    public UserResource(UserService service) {
+        this.service = service;
+    }
 
     // ResponseEntity é o tipo referência para respostas para requisições
     @GetMapping
