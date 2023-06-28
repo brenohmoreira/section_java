@@ -21,6 +21,14 @@ public class Product implements Serializable {
     private String imgUrl;
 
     // Set, pois um mesmo produto não pode ter duas categorias iguais
+    @ManyToMany
+    /*
+     * Relações muito para muitos necessitam de uma nova tabela relacionando. Para isso, usamos o @JoinTable para criar
+     * a tabela de relacionamento (tb_product_category). Aí, precisamos escolher o nome da coluna que receberá o id da
+     * entidade self (Product) -> product_id, logo depois, escolher o nome da tabela que estou relacionando com o inverseJoinColumns.
+     * Lembrando que o @JoinColumn serve para criar a coluna, então ele está presenta tanto em joinColumn quanto no inverseJoinColumns.
+     */
+    @JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
 
     public Product() {}
