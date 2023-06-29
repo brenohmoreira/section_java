@@ -33,6 +33,10 @@ public class OrderItem implements Serializable {
     }
 
     // Não tem Order direto, mas para o Java o get é o que conta se não tiver
+    /*
+     * A grosso modo, para o Json, o que vale é o get. Então para algum atributo ou método ser interpretado pelo json,
+     * ele deve começar com get
+     */
     @JsonIgnore
     public Order getOrder() {
         return id.getOrder();
@@ -64,6 +68,10 @@ public class OrderItem implements Serializable {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Double getSubTotal() {
+        return quantity * price;
     }
 
     @Override
