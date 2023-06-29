@@ -30,4 +30,8 @@ public class UserService {
         // Pega, no Optional, o objeto do tipo especificado
         return obj.get();
     }
+
+    public User insert(User user) {
+        return userRepository.save(user);
+    }
 }

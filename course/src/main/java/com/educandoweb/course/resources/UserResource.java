@@ -4,11 +4,10 @@ import com.educandoweb.course.entities.User;
 import com.educandoweb.course.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 // Controladores REST
@@ -25,6 +24,7 @@ public class UserResource {
     }
 
     // ResponseEntity é o tipo referência para respostas para requisições
+    // Get pega informações do banco
     @GetMapping
     public ResponseEntity<List<User>> findAll() {
         List<User> users_list = service.findAll();
@@ -40,5 +40,15 @@ public class UserResource {
         User obj = service.findById(id);
 
         return ResponseEntity.ok().body(obj);
+    }
+
+    @PostMapping
+    public ResponseEntity<User> insert(@RequestBody User user) {
+        user = service.insert(user);
+        // Para criar um 201, montar da seguinte forma: O path vai vir o GetMapping + o que você digitar. Insira o caminho para acessar o user criado
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(user.getId()).toUri();
+
+        // Retornar um 201 (Criado)
+        return ResponseEntity.created(uri).body(user);
     }
 }
