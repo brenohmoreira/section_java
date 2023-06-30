@@ -24,7 +24,17 @@ public class UserResource {
     }
 
     // ResponseEntity é o tipo referência para respostas para requisições
-    // Get pega informações do banco
+    /*
+     * Padrão REST para requisições de inserção é POST
+     * Padrão REST para requisições de busca é GET
+     * Padrão REST para requisições de deleção é DELETE
+     *
+     * 200 -> ok
+     * 201 -> created
+     * 204 -> no content
+     * ...
+     * 401 -> not found
+     */
     @GetMapping
     public ResponseEntity<List<User>> findAll() {
         List<User> users_list = service.findAll();
@@ -50,5 +60,13 @@ public class UserResource {
 
         // Retornar um 201 (Criado)
         return ResponseEntity.created(uri).body(user);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+
+        // Código 204 -> sem conteúdo
+        return ResponseEntity.noContent().build();
     }
 }
