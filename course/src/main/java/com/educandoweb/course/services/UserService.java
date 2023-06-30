@@ -2,7 +2,12 @@ package com.educandoweb.course.services;
 
 import com.educandoweb.course.entities.User;
 import com.educandoweb.course.repositories.UserRepository;
+import com.educandoweb.course.services.exceptions.DatabaseException;
+import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,7 +33,9 @@ public class UserService {
         Optional<User> obj = userRepository.findById(id);
 
         // Pega, no Optional, o objeto do tipo especificado
-        return obj.get();
+        // return obj.get(); -> obj.get() pode dar problema se dentro de Optional não tiver nenhum User, por isso:
+        // orElseThrow tenta dar o get(), se não tiver, retorna a exceção:
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     public User insert(User user) {
@@ -36,16 +43,31 @@ public class UserService {
     }
 
     public void delete(Long id) {
-        userRepository.deleteById(id);
+        // Você pode capturar no catch primeiro o RuntimeException e ver qual exceção está vindo com error.printStackTrace();
+        try {
+            if (userRepository.existsById(id)) {
+                userRepository.deleteById(id);
+            } else {
+                throw new ResourceNotFoundException(id);
+            }
+        } catch (EmptyResultDataAccessException error) {
+            throw new ResourceNotFoundException(id);
+        }
+        catch (DataIntegrityViolationException error) {
+            throw new DatabaseException(error.getMessage());
+        }
+
     }
 
     public User update(Long id, User user) {
         // Faz algo parecido que o findById, mas ele não busca, apenas MONITORA e deixa preparado para uma operação
-        User entity = userRepository.getReferenceById(id);
-
-        updateData(entity, user);
-
-        return userRepository.save(entity);
+        try {
+            User entity = userRepository.getReferenceById(id);
+            updateData(entity, user);
+            return userRepository.save(entity);
+        } catch (EntityNotFoundException error) {
+            throw new ResourceNotFoundException(id);
+        }
     }
 
     private void updateData(User entity, User user) {

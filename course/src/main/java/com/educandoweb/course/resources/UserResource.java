@@ -34,7 +34,7 @@ public class UserResource {
      * 201 -> created
      * 204 -> no content
      * ...
-     * 401 -> not found
+     * 404 -> not found
      */
     @GetMapping
     public ResponseEntity<List<User>> findAll() {
