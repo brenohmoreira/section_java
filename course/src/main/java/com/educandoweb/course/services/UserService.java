@@ -38,4 +38,19 @@ public class UserService {
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
+
+    public User update(Long id, User user) {
+        // Faz algo parecido que o findById, mas ele não busca, apenas MONITORA e deixa preparado para uma operação
+        User entity = userRepository.getReferenceById(id);
+
+        updateData(entity, user);
+
+        return userRepository.save(entity);
+    }
+
+    private void updateData(User entity, User user) {
+        entity.setName(user.getName());
+        entity.setEmail(user.getEmail());
+        entity.setPhone(user.getPhone());
+    }
 }

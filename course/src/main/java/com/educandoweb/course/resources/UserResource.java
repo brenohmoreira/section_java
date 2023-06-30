@@ -28,6 +28,7 @@ public class UserResource {
      * Padrão REST para requisições de inserção é POST
      * Padrão REST para requisições de busca é GET
      * Padrão REST para requisições de deleção é DELETE
+     * Padrão REST para requisições de update é o PUT
      *
      * 200 -> ok
      * 201 -> created
@@ -68,5 +69,13 @@ public class UserResource {
 
         // Código 204 -> sem conteúdo
         return ResponseEntity.noContent().build();
+    }
+
+    // Recebe da URL o id a ser mudado e do corpo da requisição, o usuário
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User user) {
+        user = service.update(id, user);
+
+        return ResponseEntity.ok().body(user);
     }
 }
